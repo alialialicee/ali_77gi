@@ -3,7 +3,7 @@ import { absoluteTaboos, avoidActions, avoidColors, avoidObjects, avoidPeople, a
 export type Gender = 'male' | 'female' | 'other';
 export interface UserInput { name: string; birthDate: string; birthTime: string; gender: Gender; }
 export interface DailyTaboo { dayLabel: string; tabooNumber: string; time: string; place: string; person: string; object: string; action: string; message: string; }
-export interface FortuneResult { title: string; summary: string; avoidColor: string; avoidPlace: string; avoidTime: string; dailyTaboos: DailyTaboo[]; absoluteTaboo: string; finalWarning: string; }
+export interface FortuneResult { title: string; ownerName: string; summary: string; avoidColor: string; avoidPlace: string; avoidTime: string; dailyTaboos: DailyTaboo[]; absoluteTaboo: string; finalWarning: string; }
 
 const dayLabels = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
 const tabooNumbers = ['금기 一','금기 二','금기 三','금기 四','금기 五','금기 六','금기 七'];
@@ -73,9 +73,9 @@ export function generateFortune(input: UserInput, now = new Date()): FortuneResu
     return { dayLabel, tabooNumber: tabooNumbers[dayIndex], ...taboo, message: applyTemplate(template, taboo) };
   });
 
-  const titleFormats = [`${input.name}님의 이름으로 열린 칠일금기`, `${input.name}님의 이레 금기 기록`, `${input.name}님, 피해야 할 일곱 기록`];
   return {
-    title: seededPick(titleFormats, commonSeed + 3),
+    title: `${input.name}님, 피해야 할 일곱 날의 예지`,
+    ownerName: input.name,
     summary: seededPick(weeklySummaries, commonSeed + 5),
     avoidColor: seededPick(avoidColors, commonSeed + 7),
     avoidPlace: seededPick(avoidPlaces, commonSeed + 13),
