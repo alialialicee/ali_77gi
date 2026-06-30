@@ -14,8 +14,11 @@ export default function ResultScreen({ result, onReset }: Props) {
         </div>
         <header className="result-hero">
           <p className="eyebrow">봉인된 칠일금기 기록</p>
-          <h1 id="result-title">이레의 금기 기록</h1>
-          <p className="result-owner">{result.title}</p>
+          <h1 id="result-title" aria-label={result.title}>
+            <span className="result-title__name">{result.ownerName}님,</span>
+            <span className="result-title__omen">피해야 할 일곱 날의 예지</span>
+          </h1>
+          <p className="result-owner">봉인된 금기 문서가 이름을 기억했습니다.</p>
           <p className="summary">{result.summary}</p>
         </header>
 
