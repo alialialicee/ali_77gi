@@ -73,7 +73,7 @@ export function generateFortune(input: UserInput, now = new Date()): FortuneResu
     return { dayLabel, tabooNumber: tabooNumbers[dayIndex], ...taboo, message: applyTemplate(template, taboo) };
   });
 
-  const titleFormats = [`${input.name}님의 이름으로 열린 칠일금기`, `${input.name}님, 이레 동안 피해야 할 기록입니다.`, `${input.name}님, 이번 주에는 이것들을 피해야 합니다.`];
+  const titleFormats = [`${input.name}님의 이름으로 열린 칠일금기`, `${input.name}님의 이레 금기 기록`, `${input.name}님, 피해야 할 일곱 기록`];
   return {
     title: seededPick(titleFormats, commonSeed + 3),
     summary: seededPick(weeklySummaries, commonSeed + 5),
