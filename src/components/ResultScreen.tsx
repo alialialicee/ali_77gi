@@ -14,7 +14,8 @@ export default function ResultScreen({ result, onReset }: Props) {
         </div>
         <header className="result-hero">
           <p className="eyebrow">봉인된 칠일금기 기록</p>
-          <h1 id="result-title">{result.title}</h1>
+          <h1 id="result-title">이레의 금기 기록</h1>
+          <p className="result-owner">{result.title}</p>
           <p className="summary">{result.summary}</p>
         </header>
 
