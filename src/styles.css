@@ -674,3 +674,37 @@ to{opacity:1;filter:none;transform:none}
       linear-gradient(135deg, rgba(25, 10, 9, 0.84), rgba(8, 3, 3, 0.9));
   }
 }
+
+/* Stronger inner-panel asset visibility: apply artwork directly to panels so mobile does not depend on page-edge backgrounds. */
+.intro-card {
+  background-image:
+    radial-gradient(circle at 50% 12%, rgba(185, 154, 85, 0.08), transparent 34%),
+    linear-gradient(145deg, rgba(19, 7, 7, 0.48), rgba(9, 3, 4, 0.62) 58%, rgba(4, 1, 2, 0.72)),
+    url("./assets/bg-intro.png"),
+    repeating-linear-gradient(25deg, rgba(255, 236, 190, 0.045) 0 2px, transparent 2px 9px);
+  background-size: cover, cover, cover, auto;
+  background-position: center, center, center top, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+}
+
+.result-document {
+  background-image:
+    radial-gradient(circle at 50% 5%, rgba(109, 27, 20, 0.08), transparent 32%),
+    linear-gradient(145deg, rgba(18, 7, 7, 0.46), rgba(8, 3, 4, 0.62) 58%, rgba(3, 1, 2, 0.72)),
+    url("./assets/bg-result.png"),
+    repeating-linear-gradient(12deg, rgba(243, 209, 155, 0.028) 0 1px, transparent 1px 7px);
+  background-size: cover, cover, cover, auto;
+  background-position: center, center, center top, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+}
+
+.saju-origin {
+  margin: 10px 0 0;
+  padding: 9px 11px;
+  border: 1px solid rgba(184, 149, 84, 0.28);
+  background: rgba(7, 3, 3, 0.48);
+  color: #c9a978;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+}

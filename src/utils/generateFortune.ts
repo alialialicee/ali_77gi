@@ -1,17 +1,15 @@
 import { absoluteTaboos, avoidColors, elementLabels, elementSummaries, finalWarnings, tabooThemes } from '../data/fortunes';
 import type { FortuneElement, TabooTheme } from '../data/fortunes';
+import { calculateSajuProfile, formatPillar } from './saju';
+import type { SajuProfile } from './saju';
 
 export type Gender = 'male' | 'female' | 'other';
 export interface UserInput { name: string; birthDate: string; birthTime: string; gender: Gender; }
 export interface DailyTaboo { dayLabel: string; tabooNumber: string; time: string; place: string; person: string; object: string; action: string; message: string; }
-export interface FortuneResult { title: string; ownerName: string; summary: string; avoidColor: string; avoidPlace: string; avoidTime: string; dailyTaboos: DailyTaboo[]; absoluteTaboo: string; finalWarning: string; }
-
-interface BirthProfile { seasonElement: FortuneElement; hourElement: FortuneElement; earthlyHour: string; favoredElements: FortuneElement[]; }
+export interface FortuneResult { title: string; ownerName: string; summary: string; avoidColor: string; avoidPlace: string; avoidTime: string; dailyTaboos: DailyTaboo[]; absoluteTaboo: string; finalWarning: string; sajuProfile: SajuProfile; sajuLine: string; }
 
 const dayLabels = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
 const tabooNumbers = ['금기 一','금기 二','금기 三','금기 四','금기 五','금기 六','금기 七'];
-const earthlyHours = ['자시','축시','인시','묘시','진시','사시','오시','미시','신시','유시','술시','해시'];
-const earthlyHourElements: FortuneElement[] = ['water','earth','wood','wood','earth','fire','fire','earth','metal','metal','earth','water'];
 
 export function hashString(value: string): number {
   let hash = 2166136261;
@@ -38,25 +36,6 @@ function pickUnique<T>(items: readonly T[], seed: number, used: Set<T>, minUniqu
   return picked;
 }
 
-function getSeasonElement(month: number): FortuneElement {
-  if ([3, 4].includes(month)) return 'wood';
-  if ([6, 7].includes(month)) return 'fire';
-  if ([2, 5, 8, 11].includes(month)) return 'earth';
-  if ([9, 10].includes(month)) return 'metal';
-  return 'water';
-}
-
-function createBirthProfile(input: UserInput): BirthProfile {
-  const month = Number(input.birthDate.split('-')[1]) || 1;
-  const hour = Number(input.birthTime.split(':')[0]) || 0;
-  const hourIndex = Math.floor(((hour + 1) % 24) / 2);
-  const seasonElement = getSeasonElement(month);
-  const hourElement = earthlyHourElements[hourIndex];
-  const favoredElements = seasonElement === hourElement ? [seasonElement, hourElement] : [seasonElement, hourElement, seasonElement];
-
-  return { seasonElement, hourElement, earthlyHour: earthlyHours[hourIndex], favoredElements };
-}
-
 function getTheme(element: FortuneElement): TabooTheme {
   return tabooThemes.find((theme) => theme.element === element) ?? tabooThemes[0];
 }
@@ -69,51 +48,59 @@ function getWeekKey(now: Date): string {
   return `${weekStart.getFullYear()}-${weekStart.getMonth() + 1}-${weekStart.getDate()}`;
 }
 
-function buildMessage(theme: TabooTheme, seed: number, usedSituations: Set<string>): string {
-  const situation = pickUnique(theme.situations, seed + 3, usedSituations, Math.min(4, theme.situations.length));
-  const warning = seededPick(theme.warnings, seed + 5);
-  const closingLine = seededPick(theme.closingLines, seed + 7);
-  const useWarning = seededRandom(seed + 9) > 0.45;
+function buildElementCycle(profile: SajuProfile): FortuneElement[] {
+  const cycle: FortuneElement[] = [profile.dominantElement, profile.dayMaster, profile.weakElement, profile.hourPillar.branchElement];
+  return cycle.filter((element, index) => cycle.indexOf(element) === index).concat([profile.dominantElement, profile.dayMaster]);
+}
 
-  if (useWarning && !situation.includes(warning)) return `${situation} ${warning}`;
-  return `${situation} ${closingLine}`;
+function formatCounts(profile: SajuProfile): string {
+  return (Object.keys(profile.elementCounts) as FortuneElement[])
+    .map((element) => `${elementLabels[element]} ${profile.elementCounts[element]}`)
+    .join(' · ');
 }
 
 export function generateFortune(input: UserInput, now = new Date()): FortuneResult {
-  const birthProfile = createBirthProfile(input);
+  const sajuProfile = calculateSajuProfile(input.birthDate, input.birthTime);
   const weekKey = getWeekKey(now);
-  const baseSeed = hashString(`${input.name}|${input.birthDate}|${input.birthTime}|${input.gender}|${weekKey}|${birthProfile.seasonElement}|${birthProfile.earthlyHour}`);
+  const baseSeed = hashString(`${input.name}|${input.birthDate}|${input.birthTime}|${input.gender}|${weekKey}|${sajuProfile.dominantElement}|${sajuProfile.dayMaster}|${sajuProfile.hourBranchLabel}`);
   const commonSeed = baseSeed + 7001;
-  const usedTimes = new Set<string>();
-  const usedPlaces = new Set<string>();
-  const usedSituations = new Set<string>();
+  const usedSets = new Set<(typeof tabooThemes)[number]['sets'][number]>();
+  const elementCycle = buildElementCycle(sajuProfile);
 
   const dailyTaboos = dayLabels.map((dayLabel, dayIndex) => {
     const dailySeed = baseSeed + dayIndex * 97;
-    const element = birthProfile.favoredElements[dayIndex % birthProfile.favoredElements.length];
+    const element = elementCycle[dayIndex % elementCycle.length];
     const theme = getTheme(element);
-    const time = pickUnique(theme.times, dailySeed + 11, usedTimes, 5);
-    const place = pickUnique(theme.places, dailySeed + 23, usedPlaces, 5);
-    const object = seededPick(theme.objects, dailySeed + 41);
-    const action = seededPick(theme.warnings, dailySeed + 53);
-    const message = buildMessage(theme, dailySeed + 67, usedSituations);
+    const set = pickUnique(theme.sets, dailySeed + 11, usedSets, Math.min(4, theme.sets.length));
 
-    return { dayLabel, tabooNumber: tabooNumbers[dayIndex], time, place, person: `${elementLabels[element]} 기운의 표식`, object, action, message };
+    return {
+      dayLabel,
+      tabooNumber: tabooNumbers[dayIndex],
+      time: set.timeLabel,
+      place: set.placeLabel,
+      person: `${elementLabels[element]} 기운의 표식`,
+      object: set.objectLabel,
+      action: set.message,
+      message: set.message,
+    };
   });
 
-  const summaryTheme = getTheme(birthProfile.seasonElement);
-  const secondaryTheme = getTheme(birthProfile.hourElement);
-  const profileLine = `${elementLabels[birthProfile.seasonElement]} 기운이 태어난 계절에서 올라오고, ${birthProfile.earthlyHour}의 ${elementLabels[birthProfile.hourElement]} 기운이 이번 주의 금기를 좁힙니다.`;
+  const dominantTheme = getTheme(sajuProfile.dominantElement);
+  const hourTheme = getTheme(sajuProfile.hourPillar.branchElement);
+  const sajuLine = [sajuProfile.yearPillar, sajuProfile.monthPillar, sajuProfile.dayPillar, sajuProfile.hourPillar].map(formatPillar).join(' · ');
+  const profileLine = `일간은 ${elementLabels[sajuProfile.dayMaster]}이고, ${sajuProfile.hourBranchLabel}의 ${elementLabels[sajuProfile.hourPillar.branchElement]} 기운이 밤의 금기를 좁힙니다. 오행 분포는 ${formatCounts(sajuProfile)}입니다.`;
 
   return {
     title: `${input.name}님, 피해야 할 일곱 날의 예지`,
     ownerName: input.name,
-    summary: `${seededPick(elementSummaries[birthProfile.seasonElement], commonSeed + 5)} ${profileLine}`,
+    summary: `${seededPick(elementSummaries[sajuProfile.dominantElement], commonSeed + 5)} ${profileLine}`,
     avoidColor: seededPick(avoidColors, commonSeed + 7),
-    avoidPlace: seededPick(summaryTheme.places, commonSeed + 13),
-    avoidTime: seededPick(secondaryTheme.times, commonSeed + 17),
+    avoidPlace: seededPick(dominantTheme.places, commonSeed + 13),
+    avoidTime: seededPick(hourTheme.times, commonSeed + 17),
     dailyTaboos,
     absoluteTaboo: seededPick(absoluteTaboos, commonSeed + 19),
     finalWarning: seededPick(finalWarnings, commonSeed + 29),
+    sajuProfile,
+    sajuLine,
   };
 }

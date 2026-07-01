@@ -20,6 +20,7 @@ export default function ResultScreen({ result, onReset }: Props) {
           </h1>
           <p className="result-owner">봉인된 금기 문서가 이름을 기억했습니다.</p>
           <p className="summary">{result.summary}</p>
+          <p className="saju-origin">봉인된 원국: {result.sajuLine}</p>
         </header>
 
         <section className="common-warnings" aria-label="이번 주 공통 금기 정보">
