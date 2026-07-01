@@ -237,25 +237,28 @@ to{opacity:1;filter:none;transform:none}
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.9;
+  opacity: 1;
   pointer-events: none;
 }
 
 .intro-screen::before {
   background-image:
-    linear-gradient(180deg, rgba(8, 0, 4, 0.28), rgba(8, 0, 4, 0.78)),
+    radial-gradient(ellipse at 50% 54%, rgba(0, 0, 0, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(8, 0, 4, 0.18), rgba(8, 0, 4, 0.54)),
     url("./assets/bg-intro.png");
 }
 
 .loading-screen::before {
   background-image:
-    linear-gradient(180deg, rgba(8, 0, 4, 0.25), rgba(8, 0, 4, 0.82)),
+    radial-gradient(ellipse at 50% 58%, rgba(0, 0, 0, 0.08), transparent 38%),
+    linear-gradient(180deg, rgba(8, 0, 4, 0.16), rgba(8, 0, 4, 0.58)),
     url("./assets/bg-loading.png");
 }
 
 .result-screen::before {
   background-image:
-    linear-gradient(180deg, rgba(8, 0, 4, 0.38), rgba(8, 0, 4, 0.88)),
+    radial-gradient(ellipse at 50% 42%, rgba(0, 0, 0, 0.1), transparent 36%),
+    linear-gradient(180deg, rgba(8, 0, 4, 0.22), rgba(8, 0, 4, 0.62)),
     url("./assets/bg-result.png");
 }
 
@@ -268,8 +271,70 @@ to{opacity:1;filter:none;transform:none}
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 30%, rgba(150, 20, 20, 0.18), transparent 36%),
-    radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.34), transparent 45%),
-    rgba(0, 0, 0, 0.36);
+    radial-gradient(circle at 50% 28%, rgba(150, 20, 20, 0.14), transparent 38%),
+    radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.24), transparent 48%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 18% 82%, rgba(0, 0, 0, 0.42)),
+    rgba(0, 0, 0, 0.18);
 }
 
+
+
+/* Tuned translucency so local scene backgrounds remain visible without losing text contrast. */
+.intro-card {
+  background:
+    linear-gradient(145deg, rgba(39, 17, 15, 0.86), rgba(18, 8, 9, 0.9)),
+    repeating-linear-gradient(25deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 9px);
+  box-shadow: 0 0 0 3px #160505, 0 22px 70px rgba(0, 0, 0, 0.86), inset 0 0 48px rgba(0, 0, 0, 0.86);
+}
+
+.loading-screen::after {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(150, 20, 20, 0.12), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.2), transparent 48%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.34), transparent 20% 80%, rgba(0, 0, 0, 0.34)),
+    rgba(0, 0, 0, 0.12);
+}
+
+.loading-copy {
+  text-shadow: 0 2px 14px #000, 0 0 22px rgba(0, 0, 0, 0.85);
+}
+
+.ritual-track {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.36)), var(--jakdu-track-image);
+}
+
+.result-document {
+  background:
+    radial-gradient(circle at 50% 2%, rgba(109, 27, 20, 0.12), transparent 30%),
+    linear-gradient(145deg, rgba(43, 21, 16, 0.86), rgba(18, 8, 9, 0.9) 58%, rgba(8, 3, 4, 0.94)),
+    repeating-linear-gradient(12deg, rgba(243, 209, 155, 0.04) 0 1px, transparent 1px 7px);
+  box-shadow: 0 0 0 1px #c1905222, 0 18px 62px rgba(0, 0, 0, 0.88), inset 0 0 34px rgba(0, 0, 0, 0.86), inset 0 0 0 999px rgba(18, 6, 5, 0.16);
+}
+
+.common-warnings div,
+.absolute-taboo {
+  background: linear-gradient(135deg, rgba(22, 9, 8, 0.86), rgba(9, 4, 4, 0.9));
+}
+
+.daily-card {
+  background:
+    radial-gradient(circle at 92% 12%, rgba(141, 22, 21, 0.1), transparent 24%),
+    linear-gradient(135deg, rgba(33, 16, 13, 0.86), rgba(11, 4, 4, 0.9));
+}
+
+@media (max-width: 519px) {
+  .intro-screen::before,
+  .loading-screen::before,
+  .result-screen::before {
+    filter: saturate(0.95) brightness(0.9);
+  }
+
+  .intro-screen::after,
+  .result-screen::after {
+    background:
+      radial-gradient(circle at 50% 28%, rgba(150, 20, 20, 0.1), transparent 38%),
+      radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.22), transparent 48%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.48), transparent 20% 80%, rgba(0, 0, 0, 0.48)),
+      rgba(0, 0, 0, 0.24);
+  }
+}
