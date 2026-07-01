@@ -497,7 +497,9 @@ to{opacity:1;filter:none;transform:none}
 /* Mobile-first panel interior backgrounds: keep occult scene visible inside large cards. */
 .intro-card,
 .result-document {
+  position: relative;
   isolation: isolate;
+  overflow: hidden;
 }
 
 .intro-card::before,
@@ -509,7 +511,7 @@ to{opacity:1;filter:none;transform:none}
   pointer-events: none;
   background-repeat: no-repeat;
   background-size: cover;
-  mix-blend-mode: screen;
+  filter: saturate(1.04) contrast(1.05);
 }
 
 .intro-card::after,
@@ -526,11 +528,11 @@ to{opacity:1;filter:none;transform:none}
 
 .intro-card::before {
   background-image:
-    linear-gradient(145deg, rgba(6, 2, 3, 0.62), rgba(18, 5, 5, 0.54) 45%, rgba(0, 0, 0, 0.78)),
-    radial-gradient(circle at 50% 12%, rgba(185, 154, 85, 0.16), transparent 34%),
+    radial-gradient(circle at 50% 18%, rgba(185, 154, 85, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(6, 2, 3, 0.5), rgba(18, 5, 5, 0.42) 45%, rgba(0, 0, 0, 0.68)),
     url("./assets/bg-intro.png");
   background-position: center;
-  opacity: 0.38;
+  opacity: 0.5;
 }
 
 .intro-card {
@@ -554,11 +556,11 @@ to{opacity:1;filter:none;transform:none}
 
 .result-document::before {
   background-image:
-    linear-gradient(145deg, rgba(5, 2, 3, 0.64), rgba(20, 5, 5, 0.5) 45%, rgba(0, 0, 0, 0.76)),
-    radial-gradient(circle at 50% 8%, rgba(185, 154, 85, 0.13), transparent 32%),
+    radial-gradient(circle at 50% 8%, rgba(185, 154, 85, 0.14), transparent 32%),
+    linear-gradient(145deg, rgba(5, 2, 3, 0.5), rgba(20, 5, 5, 0.38) 45%, rgba(0, 0, 0, 0.68)),
     url("./assets/bg-result.png");
   background-position: center top;
-  opacity: 0.34;
+  opacity: 0.44;
 }
 
 .result-document {
@@ -586,7 +588,7 @@ to{opacity:1;filter:none;transform:none}
 
 @media (max-width: 519px) {
   .intro-card::before {
-    opacity: 0.44;
+    opacity: 0.58;
     background-position: center top;
   }
 
@@ -598,7 +600,7 @@ to{opacity:1;filter:none;transform:none}
   }
 
   .result-document::before {
-    opacity: 0.4;
+    opacity: 0.5;
   }
 
   .result-document {
