@@ -620,3 +620,57 @@ to{opacity:1;filter:none;transform:none}
       linear-gradient(135deg, rgba(33, 16, 13, 0.76), rgba(11, 4, 4, 0.84));
   }
 }
+
+/* Inner-panel scene pass: the mobile-visible cards carry the local art, not only the page edge. */
+.intro-card::before {
+  opacity: 0.62;
+  background-image:
+    radial-gradient(circle at 50% 16%, rgba(185, 154, 85, 0.16), transparent 34%),
+    linear-gradient(145deg, rgba(4, 1, 2, 0.36), rgba(18, 5, 5, 0.3) 45%, rgba(0, 0, 0, 0.62)),
+    url("./assets/bg-intro.png");
+}
+
+.intro-card {
+  background:
+    radial-gradient(circle at 50% 0, rgba(185, 154, 85, 0.045), transparent 34%),
+    linear-gradient(145deg, rgba(47, 22, 17, 0.44), rgba(17, 7, 7, 0.52) 58%, rgba(7, 3, 4, 0.6)),
+    repeating-linear-gradient(25deg, rgba(255, 236, 190, 0.045) 0 2px, transparent 2px 9px);
+}
+
+.result-document::before {
+  opacity: 0.56;
+  background-image:
+    radial-gradient(circle at 50% 8%, rgba(185, 154, 85, 0.12), transparent 32%),
+    linear-gradient(145deg, rgba(5, 2, 3, 0.38), rgba(20, 5, 5, 0.28) 45%, rgba(0, 0, 0, 0.62)),
+    url("./assets/bg-result.png");
+}
+
+.result-document {
+  background:
+    radial-gradient(circle at 50% 2%, rgba(109, 27, 20, 0.06), transparent 32%),
+    linear-gradient(145deg, rgba(43, 21, 16, 0.48), rgba(18, 8, 9, 0.58) 58%, rgba(8, 3, 4, 0.66)),
+    repeating-linear-gradient(12deg, rgba(243, 209, 155, 0.028) 0 1px, transparent 1px 7px);
+}
+
+.result-hero,
+.common-warnings,
+.daily-list,
+.closing-ritual {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 519px) {
+  .intro-card::before { opacity: 0.68; }
+  .result-document::before { opacity: 0.62; }
+
+  .intro-card .ritual-form {
+    background: linear-gradient(180deg, rgba(8, 3, 4, 0.42), rgba(8, 3, 4, 0.58));
+  }
+
+  .daily-card {
+    background:
+      radial-gradient(circle at 92% 12%, rgba(141, 22, 21, 0.1), transparent 24%),
+      linear-gradient(135deg, rgba(25, 10, 9, 0.84), rgba(8, 3, 3, 0.9));
+  }
+}
