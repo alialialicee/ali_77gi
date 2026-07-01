@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { loadingMessages } from '../data/fortunes';
 import loadingMudangUrl from '../assets/loading-mudang.png';
 import jakduTrackUrl from '../assets/jakdu-track.png';
@@ -14,12 +14,12 @@ const completionMessages = [
 ];
 
 export default function LoadingRitual({ onComplete }: Props) {
-  const duration = useMemo(() => 4000 + Math.floor(Math.random() * 2001), []);
+  const durationRef = useRef(4000 + Math.floor(Math.random() * 2001));
   const completeMessage = useMemo(() => completionMessages[Math.floor(Math.random() * completionMessages.length)], []);
   const [message, setMessage] = useState(loadingMessages[0]);
   const [progress, setProgress] = useState(0);
-  const isComplete = progress >= 100;
-  const runnerLeft = 8 + progress * 0.84;
+  const [isComplete, setIsComplete] = useState(false);
+  const runnerLeft = 7 + progress * 0.86;
 
   useEffect(() => {
     let animationFrame = 0;
@@ -27,7 +27,7 @@ export default function LoadingRitual({ onComplete }: Props) {
     const startedAt = performance.now();
 
     const advanceRitual = (now: number) => {
-      const nextProgress = Math.min(((now - startedAt) / duration) * 100, 100);
+      const nextProgress = Math.min(((now - startedAt) / durationRef.current) * 100, 100);
       setProgress(nextProgress);
 
       if (nextProgress < 100) {
@@ -35,6 +35,7 @@ export default function LoadingRitual({ onComplete }: Props) {
         return;
       }
 
+      setIsComplete(true);
       setMessage(completeMessage);
       completeTimer = window.setTimeout(onComplete, 750);
     };
@@ -45,7 +46,7 @@ export default function LoadingRitual({ onComplete }: Props) {
       window.cancelAnimationFrame(animationFrame);
       window.clearTimeout(completeTimer);
     };
-  }, [completeMessage, duration, onComplete]);
+  }, [completeMessage, onComplete]);
 
   useEffect(() => {
     const messageTimer = window.setInterval(() => {
@@ -64,7 +65,6 @@ export default function LoadingRitual({ onComplete }: Props) {
       style={
         {
           '--ritual-progress': `${progress}%`,
-          '--shaman-left': `${runnerLeft}%`,
           '--loading-mudang-image': `url(${loadingMudangUrl})`,
           '--jakdu-track-image': `url(${jakduTrackUrl})`,
         } as CSSProperties
@@ -86,13 +86,13 @@ export default function LoadingRitual({ onComplete }: Props) {
 
       <div className="ritual-loader" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-label="의식 진행률">
         <div className="ritual-track">
-          <div className="ritual-track-fill" />
+          <div className="ritual-track-fill" style={{ width: `${progress}%` }} />
           <div className="blade-glow" />
           <div className="blade-segments" aria-hidden="true" />
           <div className="track-seal" aria-hidden="true">封</div>
         </div>
-        <div className="shaman-runner" aria-hidden="true">
-          <div className="shaman-sprite">
+        <div className="shaman-runner" style={{ left: `${runnerLeft}%` }} aria-hidden="true">
+          <div className="shaman-dancer">
             <img className="shaman-image" src={loadingMudangUrl} alt="" />
             <span className="shaman-bell" />
           </div>
