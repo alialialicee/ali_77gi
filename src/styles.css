@@ -28,6 +28,8 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;background:radi
 .ritual-form{display:grid;gap:15px;margin-top:24px}
 label,legend{color:var(--muted);font-size:.9rem}
 input{width:100%;min-height:48px;margin-top:7px;border:1px solid #6b2020;border-radius:0;background:#080405;color:var(--text);padding:12px;font:inherit}
+.birthdate-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:8px;margin-top:7px}
+.birthdate-grid input{margin-top:0;text-align:center;letter-spacing:.08em}
 fieldset{border:0;padding:0;margin:0}
 .gender-grid{display:grid;gap:8px}
 .radio-card{display:flex;align-items:center;gap:8px;min-height:46px;border:1px solid #5b1919;padding:10px;background:#120808}
