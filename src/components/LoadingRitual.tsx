@@ -19,6 +19,7 @@ export default function LoadingRitual({ onComplete }: Props) {
   const [message, setMessage] = useState(loadingMessages[0]);
   const [progress, setProgress] = useState(0);
   const isComplete = progress >= 100;
+  const runnerLeft = 8 + progress * 0.84;
 
   useEffect(() => {
     let animationFrame = 0;
@@ -63,7 +64,7 @@ export default function LoadingRitual({ onComplete }: Props) {
       style={
         {
           '--ritual-progress': `${progress}%`,
-          '--shaman-x': `-${progress}%`,
+          '--shaman-left': `${runnerLeft}%`,
           '--loading-mudang-image': `url(${loadingMudangUrl})`,
           '--jakdu-track-image': `url(${jakduTrackUrl})`,
         } as CSSProperties
