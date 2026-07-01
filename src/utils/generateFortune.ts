@@ -88,7 +88,7 @@ export function generateFortune(input: UserInput, now = new Date()): FortuneResu
   const dominantTheme = getTheme(sajuProfile.dominantElement);
   const hourTheme = getTheme(sajuProfile.hourPillar.branchElement);
   const sajuLine = [sajuProfile.yearPillar, sajuProfile.monthPillar, sajuProfile.dayPillar, sajuProfile.hourPillar].map(formatPillar).join(' · ');
-  const profileLine = `일간은 ${elementLabels[sajuProfile.dayMaster]}이고, ${sajuProfile.hourBranchLabel}의 ${elementLabels[sajuProfile.hourPillar.branchElement]} 기운이 밤의 금기를 좁힙니다. 오행 분포는 ${formatCounts(sajuProfile)}입니다.`;
+  const profileLine = `사주 원국에서 일간은 ${elementLabels[sajuProfile.dayMaster]}이고, ${sajuProfile.hourBranchLabel}에는 ${elementLabels[sajuProfile.hourPillar.branchElement]} 기운이 함께 놓입니다. 오행 분포는 ${formatCounts(sajuProfile)}로 읽었습니다.`;
 
   return {
     title: `${input.name}님, 피해야 할 일곱 날의 예지`,
