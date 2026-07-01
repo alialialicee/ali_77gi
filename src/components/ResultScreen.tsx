@@ -18,7 +18,7 @@ export default function ResultScreen({ result, onReset }: Props) {
             <span className="result-title__name">{result.ownerName}님,</span>
             <span className="result-title__omen">피해야 할 일곱 날의 예지</span>
           </h1>
-          <p className="result-owner">봉인된 금기 문서가 이름을 기억했습니다.</p>
+          <p className="result-owner">입력한 이름과 태어난 시각을 바탕으로 이번 주의 금기를 정리했습니다.</p>
           <p className="summary">{result.summary}</p>
           <p className="saju-origin">봉인된 원국: {result.sajuLine}</p>
         </header>
