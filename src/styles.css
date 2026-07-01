@@ -194,12 +194,12 @@ to{opacity:1;filter:none;transform:none}
 .glitch-text{margin:0;min-height:3.2em;padding-inline:6px;font-size:clamp(1.35rem,6vw,2.6rem);line-height:1.35;word-break:keep-all}
 .ritual-loader{position:relative;z-index:4;align-self:start;width:min(88vw,560px);height:132px;margin-top:2px;filter:drop-shadow(0 18px 34px #000)}
 .ritual-track{position:absolute;left:0;right:0;bottom:20px;height:38px;border:1px solid #79552d;background-image:linear-gradient(180deg,#0006,#0002 45%,#0008),var(--jakdu-track-image);background-size:100% 100%;background-repeat:no-repeat;background-position:center;box-shadow:inset 0 0 22px #000,0 0 0 2px #120505,0 0 32px #5c0f0f66;overflow:hidden;clip-path:polygon(2% 24%,98% 8%,100% 50%,98% 92%,2% 76%,0 50%)}
-.ritual-track-fill{position:absolute;inset:0 auto 0 0;width:var(--ritual-progress);background:linear-gradient(90deg,#53101099,#a9221fcc 55%,#d05b35dd);box-shadow:0 0 24px #b72420cc,inset 0 0 16px #ffd08b38;transition:width .08s linear}
+.ritual-track-fill{position:absolute;inset:0 auto 0 0;width:var(--ritual-progress);background:linear-gradient(90deg,#53101099,#a9221fcc 55%,#d05b35dd);box-shadow:0 0 24px #b72420cc,inset 0 0 16px #ffd08b38;transition:none;will-change:width}
 .blade-glow{position:absolute;left:0;top:50%;width:var(--ritual-progress);height:2px;background:linear-gradient(90deg,transparent,#f2a05f,#cf2626);box-shadow:0 0 15px #d33228;transform:translateY(-50%);opacity:.9}
 .blade-segments{position:absolute;inset:0;background:repeating-linear-gradient(102deg,transparent 0 22px,#d0a25e50 23px 24px,transparent 25px 46px),linear-gradient(180deg,#ffffff12,transparent 45%,#0008 55%,#ffffff0a);mix-blend-mode:screen}
 .track-seal{position:absolute;right:10px;top:50%;width:25px;height:25px;display:grid;place-items:center;border:1px solid #b98b4d80;border-radius:50%;color:#d9b16a;background:#160606cc;text-shadow:0 0 10px #d62626;transform:translateY(-50%);font-size:.9rem}
 .ritual-complete .ritual-track{box-shadow:inset 0 0 26px #000,0 0 0 2px #2c0808,0 0 48px #d12a28cc;animation:trackOpen .75s ease both}
-.shaman-runner{position:absolute;left:var(--ritual-progress);bottom:46px;width:clamp(54px,18vw,78px);height:clamp(70px,24vw,98px);transform:translate3d(var(--shaman-x),0,0);transition:left .08s linear,transform .08s linear;transform-origin:50% 88%}
+.shaman-runner{position:absolute;left:var(--shaman-left,8%);bottom:46px;width:clamp(54px,18vw,78px);height:clamp(70px,24vw,98px);transform:translate3d(-50%,0,0);transition:none;transform-origin:50% 88%;will-change:left}
 .shaman-sprite{position:absolute;inset:0;animation:shamanDance .78s ease-in-out infinite;transform-origin:50% 88%}
 .shaman-image{position:absolute;left:50%;bottom:0;width:100%;height:auto;transform:translateX(-50%);filter:drop-shadow(0 10px 12px #000)}
 .shaman-bell{right:0;bottom:44%;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f1c777,#8b6427 58%,#2a1206);box-shadow:0 0 8px #b8873f99;transform-origin:-16px 4px;animation:bellShake .42s ease-in-out infinite}
@@ -244,21 +244,21 @@ to{opacity:1;filter:none;transform:none}
 .intro-screen::before {
   background-image:
     radial-gradient(ellipse at 50% 54%, rgba(0, 0, 0, 0.12), transparent 34%),
-    linear-gradient(180deg, rgba(8, 0, 4, 0.18), rgba(8, 0, 4, 0.54)),
+    linear-gradient(180deg, rgba(8, 0, 4, 0.1), rgba(8, 0, 4, 0.42)),
     url("./assets/bg-intro.png");
 }
 
 .loading-screen::before {
   background-image:
     radial-gradient(ellipse at 50% 58%, rgba(0, 0, 0, 0.08), transparent 38%),
-    linear-gradient(180deg, rgba(8, 0, 4, 0.16), rgba(8, 0, 4, 0.58)),
+    linear-gradient(180deg, rgba(8, 0, 4, 0.08), rgba(8, 0, 4, 0.44)),
     url("./assets/bg-loading.png");
 }
 
 .result-screen::before {
   background-image:
     radial-gradient(ellipse at 50% 42%, rgba(0, 0, 0, 0.1), transparent 36%),
-    linear-gradient(180deg, rgba(8, 0, 4, 0.22), rgba(8, 0, 4, 0.62)),
+    linear-gradient(180deg, rgba(8, 0, 4, 0.12), rgba(8, 0, 4, 0.48)),
     url("./assets/bg-result.png");
 }
 
@@ -271,10 +271,10 @@ to{opacity:1;filter:none;transform:none}
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 28%, rgba(150, 20, 20, 0.14), transparent 38%),
-    radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.24), transparent 48%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 18% 82%, rgba(0, 0, 0, 0.42)),
-    rgba(0, 0, 0, 0.18);
+    radial-gradient(circle at 50% 28%, rgba(150, 20, 20, 0.12), transparent 38%),
+    radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.18), transparent 48%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 18% 82%, rgba(0, 0, 0, 0.28)),
+    rgba(0, 0, 0, 0.1);
 }
 
 
@@ -282,7 +282,7 @@ to{opacity:1;filter:none;transform:none}
 /* Tuned translucency so local scene backgrounds remain visible without losing text contrast. */
 .intro-card {
   background:
-    linear-gradient(145deg, rgba(39, 17, 15, 0.86), rgba(18, 8, 9, 0.9)),
+    linear-gradient(145deg, rgba(39, 17, 15, 0.78), rgba(18, 8, 9, 0.84)),
     repeating-linear-gradient(25deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 9px);
   box-shadow: 0 0 0 3px #160505, 0 22px 70px rgba(0, 0, 0, 0.86), inset 0 0 48px rgba(0, 0, 0, 0.86);
 }
@@ -291,8 +291,8 @@ to{opacity:1;filter:none;transform:none}
   background:
     radial-gradient(circle at 50% 30%, rgba(150, 20, 20, 0.12), transparent 40%),
     radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.2), transparent 48%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.34), transparent 20% 80%, rgba(0, 0, 0, 0.34)),
-    rgba(0, 0, 0, 0.12);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.24), transparent 20% 80%, rgba(0, 0, 0, 0.24)),
+    rgba(0, 0, 0, 0.08);
 }
 
 .loading-copy {
@@ -306,20 +306,20 @@ to{opacity:1;filter:none;transform:none}
 .result-document {
   background:
     radial-gradient(circle at 50% 2%, rgba(109, 27, 20, 0.12), transparent 30%),
-    linear-gradient(145deg, rgba(43, 21, 16, 0.86), rgba(18, 8, 9, 0.9) 58%, rgba(8, 3, 4, 0.94)),
+    linear-gradient(145deg, rgba(43, 21, 16, 0.8), rgba(18, 8, 9, 0.86) 58%, rgba(8, 3, 4, 0.92)),
     repeating-linear-gradient(12deg, rgba(243, 209, 155, 0.04) 0 1px, transparent 1px 7px);
   box-shadow: 0 0 0 1px #c1905222, 0 18px 62px rgba(0, 0, 0, 0.88), inset 0 0 34px rgba(0, 0, 0, 0.86), inset 0 0 0 999px rgba(18, 6, 5, 0.16);
 }
 
 .common-warnings div,
 .absolute-taboo {
-  background: linear-gradient(135deg, rgba(22, 9, 8, 0.86), rgba(9, 4, 4, 0.9));
+  background: linear-gradient(135deg, rgba(22, 9, 8, 0.84), rgba(9, 4, 4, 0.9));
 }
 
 .daily-card {
   background:
     radial-gradient(circle at 92% 12%, rgba(141, 22, 21, 0.1), transparent 24%),
-    linear-gradient(135deg, rgba(33, 16, 13, 0.86), rgba(11, 4, 4, 0.9));
+    linear-gradient(135deg, rgba(33, 16, 13, 0.82), rgba(11, 4, 4, 0.88));
 }
 
 @media (max-width: 519px) {
@@ -334,7 +334,7 @@ to{opacity:1;filter:none;transform:none}
     background:
       radial-gradient(circle at 50% 28%, rgba(150, 20, 20, 0.1), transparent 38%),
       radial-gradient(circle at 50% 100%, rgba(80, 0, 0, 0.22), transparent 48%),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.48), transparent 20% 80%, rgba(0, 0, 0, 0.48)),
-      rgba(0, 0, 0, 0.24);
+      linear-gradient(90deg, rgba(0, 0, 0, 0.36), transparent 20% 80%, rgba(0, 0, 0, 0.36)),
+      rgba(0, 0, 0, 0.18);
   }
 }
