@@ -1,6 +1,8 @@
 import type { CSSProperties } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { loadingMessages } from '../data/fortunes';
+import loadingMudangUrl from '../assets/loading-mudang.png';
+import jakduTrackUrl from '../assets/jakdu-track.png';
 
 interface Props { onComplete: () => void; }
 
@@ -58,7 +60,14 @@ export default function LoadingRitual({ onComplete }: Props) {
   return (
     <section
       className={`screen loading-screen reveal${isComplete ? ' ritual-complete' : ''}`}
-      style={{ '--ritual-progress': `${progress}%` } as CSSProperties}
+      style={
+        {
+          '--ritual-progress': `${progress}%`,
+          '--shaman-x': `-${progress}%`,
+          '--loading-mudang-image': `url(${loadingMudangUrl})`,
+          '--jakdu-track-image': `url(${jakduTrackUrl})`,
+        } as CSSProperties
+      }
       aria-live="polite"
     >
       <div className="ritual-circle"><span /><span /><span /></div>
@@ -82,10 +91,10 @@ export default function LoadingRitual({ onComplete }: Props) {
           <div className="track-seal" aria-hidden="true">封</div>
         </div>
         <div className="shaman-runner" aria-hidden="true">
-          <span className="shaman-bell" />
-          <span className="shaman-hat" />
-          <span className="shaman-body" />
-          <span className="shaman-cloth" />
+          <div className="shaman-sprite">
+            <img className="shaman-image" src={loadingMudangUrl} alt="" />
+            <span className="shaman-bell" />
+          </div>
         </div>
       </div>
     </section>
